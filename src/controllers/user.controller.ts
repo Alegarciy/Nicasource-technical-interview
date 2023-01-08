@@ -2,11 +2,61 @@ import { Request, Response } from 'express'
 import { UserService } from '../services/user.service'
 
 export class UserController {
-  constructor(private _userService: UserService) {}
+  constructor(private service: UserService) {}
 
   async create(req: Request, res: Response): Promise<void> {
-    const { firstname, lastname, age } = req.body
-    const requestStatus = this._userService.saveUser(firstname, lastname, age)
-    res.send(requestStatus)
+    try {
+      const user = await this.service.create(req.body)
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const users = await this.service.list()
+      console.log(users)
+      res.status(200).json(users)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  async get(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params
+
+      const task = await this.service.get(+userId) // str to num convertion
+
+      res.status(200).json(task)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params
+      const body = req.body
+
+      const user = await this.service.update(+userId, body)
+
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  async remove(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params
+
+      const user = await this.service.remove(+userId)
+
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(500).json(error)
+    }
   }
 }
