@@ -38,7 +38,6 @@ export class TaskController {
   async update(req: Request, res: Response): Promise<void> {
     try {
       const { taskId } = req.params
-      console.log('ID ====>', taskId)
       const body = req.body
 
       const task = await this.service.update(+taskId, body)

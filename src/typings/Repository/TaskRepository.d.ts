@@ -1,5 +1,4 @@
-export type Id = number
-
+import { Id } from '../Data/Database'
 export interface TaskRepository<T> {
   create(data: Partial<T>): Promise<T>
   list(): Promise<T[]>

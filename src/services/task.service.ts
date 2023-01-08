@@ -1,6 +1,9 @@
-import { TaskRepository, Id } from './../typings/Repository/TaskRepository.d'
 import { Task } from '../models/Task'
 import { AppDataSource } from '../data-source'
+
+// DATATYPES
+import { TaskRepository } from './../typings/Repository/TaskRepository.d'
+import { Id } from '../typings/Data/Database'
 
 export class TaskService implements TaskRepository<Task> {
   private readonly repository = AppDataSource.getRepository(Task)
