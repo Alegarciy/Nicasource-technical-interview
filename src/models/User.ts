@@ -6,11 +6,8 @@ export class User {
   id: number
 
   @Column({ type: 'varchar', length: 50 })
-  firstName: string
+  nickname: string
 
   @Column({ type: 'varchar', length: 50 })
-  lastName: string
-
-  @Column()
-  age: number
+  password: string
 }
