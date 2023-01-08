@@ -1,33 +1,38 @@
-import { TaskStatus, Task } from '../models/Task'
+import { TaskRepository, Id } from './../typings/Repository/TaskRepository.d'
+import { Task } from '../models/Task'
 import { AppDataSource } from '../data-source'
 
-export class TaskService {
-  private readonly _taskRepository = AppDataSource.getRepository(Task)
+export class TaskService implements TaskRepository<Task> {
+  private readonly repository = AppDataSource.getRepository(Task)
 
-  async saveTask(
-    title: string,
-    description: string,
-    status: TaskStatus
-  ): Promise<number> {
-    try {
-      const task = new Task()
-      task.title = title
-      task.description = description
-      task.status = status
-      this._taskRepository.save(task)
-      return 200
-    } catch {
-      console.log('ERR: ~ 🦋🦋🦋 line 20 saveTask.js')
-      return 1
-    }
+  async create(data: Partial<Task>): Promise<Task> {
+    const task = this.repository.create(data)
+    await this.repository.save(task)
+    return task
   }
 
-  async listTasks(): Promise<number> {
-    try {
-      return 200
-    } catch {
-      console.log('ERR: ~ 🦋🦋🦋 line 21 listTask.js')
-      return 1
+  async list(): Promise<Task[]> {
+    return this.repository.find()
+  }
+
+  async get(id: Id): Promise<Task> {
+    const task = await this.repository.findOneBy({ id: id })
+
+    if (!task) {
+      throw new Error('Task does not exists')
     }
+
+    return task
+  }
+
+  async update(id: Id, data: Task): Promise<Task> {
+    await this.repository.update(id, data)
+    return this.get(id)
+  }
+
+  async remove(id: Id): Promise<Task> {
+    const task = await this.get(id)
+    await this.repository.delete(id)
+    return task
   }
 }

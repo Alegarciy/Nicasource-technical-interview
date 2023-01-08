@@ -17,7 +17,7 @@ export class UserService {
       this._userRepository.save(user)
       return 200
     } catch {
-      console.log('ERR: ~ 🦋🦋🦋 line 20 saveUser.js')
+      console.log('ERR: ~ 🦋🦋🦋 saveUser.js')
       return 1
     }
   }
