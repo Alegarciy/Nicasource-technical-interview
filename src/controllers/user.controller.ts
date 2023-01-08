@@ -27,9 +27,21 @@ export class UserController {
     try {
       const { userId } = req.params
 
-      const task = await this.service.get(+userId) // str to num convertion
+      const user = await this.service.get(+userId) // str to num convertion
 
-      res.status(200).json(task)
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  async getTasks(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params
+
+      const tasks = await this.service.getTasks(+userId) // str to num convertion
+
+      res.status(200).json(tasks)
     } catch (error) {
       res.status(500).json(error)
     }

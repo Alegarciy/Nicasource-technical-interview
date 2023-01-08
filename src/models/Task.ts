@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import { User } from './User'
 
 export enum TaskStatus {
   PENDING = 'pending',
@@ -23,4 +24,7 @@ export class Task {
     default: TaskStatus.PENDING,
   })
   status: TaskStatus
+
+  @ManyToOne(() => User, (user) => user.tasks)
+  user: User
 }

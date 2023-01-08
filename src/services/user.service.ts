@@ -1,6 +1,7 @@
-import { User } from '../models/User'
 import { AppDataSource } from '../data-source'
-
+// MODELS
+import { Task } from './../models/Task'
+import { User } from '../models/User'
 // DATATYPES
 import { UserRepository } from '../typings/Repository/UserRepository'
 import { Id } from '../typings/Data/Database'
@@ -37,5 +38,22 @@ export class UserService implements UserRepository<User> {
     const task = await this.get(id)
     await this.repository.delete(id)
     return task
+  }
+
+  async getTasks(id: Id): Promise<Task[]> {
+    const user = await this.repository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        tasks: true,
+      },
+    })
+
+    if (!user) {
+      throw new Error('User does not exists')
+    }
+
+    return user.tasks
   }
 }
