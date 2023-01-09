@@ -27,7 +27,7 @@ export class UserController {
     try {
       const { userId } = req.params
 
-      const user = await this.service.get(+userId) // str to num convertion
+      const user = await this.service.get(userId)
 
       res.status(200).json(user)
     } catch (error) {
@@ -39,7 +39,7 @@ export class UserController {
     try {
       const { userId } = req.params
 
-      const tasks = await this.service.getTasks(+userId) // str to num convertion
+      const tasks = await this.service.getTasks(userId)
 
       res.status(200).json(tasks)
     } catch (error) {
@@ -52,7 +52,7 @@ export class UserController {
       const { userId } = req.params
       const body = req.body
 
-      const user = await this.service.update(+userId, body)
+      const user = await this.service.update(userId, body)
 
       res.status(200).json(user)
     } catch (error) {
@@ -64,7 +64,7 @@ export class UserController {
     try {
       const { userId } = req.params
 
-      const user = await this.service.remove(+userId)
+      const user = await this.service.remove(userId)
 
       res.status(200).json(user)
     } catch (error) {

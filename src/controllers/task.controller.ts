@@ -27,7 +27,7 @@ export class TaskController {
     try {
       const { taskId } = req.params
 
-      const task = await this.service.get(+taskId) // str to num convertion
+      const task = await this.service.get(taskId) // str to num convertion
 
       res.status(200).json(task)
     } catch (error) {
@@ -40,7 +40,7 @@ export class TaskController {
       const { taskId } = req.params
       const body = req.body
 
-      const task = await this.service.update(+taskId, body)
+      const task = await this.service.update(taskId, body)
 
       res.status(200).json(task)
     } catch (error) {
@@ -52,7 +52,7 @@ export class TaskController {
     try {
       const { taskId } = req.params
 
-      const task = await this.service.remove(+taskId)
+      const task = await this.service.remove(taskId)
 
       res.status(200).json(task)
     } catch (error) {

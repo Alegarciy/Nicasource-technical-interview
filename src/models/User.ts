@@ -3,11 +3,14 @@ import { Task } from './Task'
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
   @Column({ type: 'varchar', length: 50 })
-  nickname: string
+  username: string
+
+  @Column({ type: 'varchar', length: 50 })
+  email: string
 
   @Column({ type: 'varchar', length: 50 })
   password: string
