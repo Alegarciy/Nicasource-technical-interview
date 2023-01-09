@@ -5,14 +5,16 @@ import { User } from '../models/User'
 // DATATYPES
 import { UserRepository } from '../typings/Repository/UserRepository'
 import { Id } from '../typings/Data/Database'
+import { passwordEncription } from '../libs/encription'
 
 export class UserService implements UserRepository<User> {
   private readonly repository = AppDataSource.getRepository(User)
 
   async create(data: Partial<User>): Promise<User> {
-    const task = this.repository.create(data)
-    await this.repository.save(task)
-    return task
+    const password = await passwordEncription(data.password)
+    const user = this.repository.create({ ...data, password: password })
+    await this.repository.save(user)
+    return user
   }
 
   async list(): Promise<User[]> {
@@ -20,13 +22,23 @@ export class UserService implements UserRepository<User> {
   }
 
   async get(id: Id): Promise<User> {
-    const task = await this.repository.findOneBy({ id: id })
+    const user = await this.repository.findOneBy({ id: id })
 
-    if (!task) {
+    if (!user) {
       throw new Error('User does not exists')
     }
 
-    return task
+    return user
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.repository.findOneBy({ email: email })
+
+    if (!user) {
+      return undefined
+    }
+
+    return user
   }
 
   async update(id: Id, data: User): Promise<User> {
@@ -35,9 +47,9 @@ export class UserService implements UserRepository<User> {
   }
 
   async remove(id: Id): Promise<User> {
-    const task = await this.get(id)
+    const user = await this.get(id)
     await this.repository.delete(id)
-    return task
+    return user
   }
 
   async getTasks(id: Id): Promise<Task[]> {

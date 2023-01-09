@@ -9,6 +9,8 @@ export const passwordValidation = async (
   dbPassowrd: string,
   loggedPassword: string
 ): Promise<boolean> => {
-  const verifyPass = await bcrypt.compare(dbPassowrd, loggedPassword)
+  console.log(dbPassowrd)
+  console.log(loggedPassword)
+  const verifyPass = await bcrypt.compare(loggedPassword, dbPassowrd)
   return verifyPass
 }

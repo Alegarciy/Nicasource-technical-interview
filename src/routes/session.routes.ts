@@ -7,5 +7,6 @@ const router = Router()
 const controller = new SessionController(new UserService())
 
 router.post('/singup', controller.singup.bind(controller))
+router.post('/singin', controller.signin.bind(controller))
 
 export default router

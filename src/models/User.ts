@@ -12,7 +12,7 @@ export class User {
   @Column({ type: 'varchar', length: 50 })
   email: string
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 200 })
   password: string
 
   // Let's say a task has one user, and each user can have many tasks

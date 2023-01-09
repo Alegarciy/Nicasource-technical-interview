@@ -5,7 +5,7 @@ require('dotenv').config()
 
 export const signJwt = (payload: Object) => {
   const privateKey = process.env['ACCESS_TOKEN_PRIVATE_KEY'] || ''
-  return jwt.sign(payload, privateKey)
+  return jwt.sign({ payload: payload }, privateKey, { expiresIn: '5h' }) // 5hours
 }
 
 export const tokenValidation = (
