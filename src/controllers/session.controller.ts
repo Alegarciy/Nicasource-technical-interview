@@ -23,7 +23,6 @@ export class SessionController {
       const response = { ...user, token: token, password: '' }
       res.status(200).json(response)
     } catch (error) {
-      console.log(error)
       res.status(500).json(error)
     }
   }
