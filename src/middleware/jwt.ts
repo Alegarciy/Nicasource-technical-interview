@@ -1,3 +1,4 @@
+import { TokenService } from './../services/token.service'
 import { Request, Response, NextFunction } from 'express'
 import { IPayload } from '../typings/Data/Auth'
 import jwt from 'jsonwebtoken'
@@ -8,13 +9,21 @@ export const signJwt = (payload: Object) => {
   return jwt.sign({ payload: payload }, privateKey, { expiresIn: '5h' }) // 5hours
 }
 
-export const tokenValidation = (
+export const tokenValidation = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    // Search if token is stored
+    const tokenService = new TokenService()
     const token = req.header('token')
+
+    // Validate token if the user logged out or not
+    if (!(await tokenService.tokenExists(token))) {
+      return res.status(400).send('Expired Token')
+    }
+
     if (!token) return res.status(401).json('Access Denied')
 
     // this payload contains the user information

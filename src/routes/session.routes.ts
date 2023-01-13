@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { UserService } from '../services/user.service'
+import { TokenService } from '../services/token.service'
 import { SessionController } from '../controllers/session.controller'
 import { tokenValidation } from '../middleware/jwt'
 
 const router = Router()
-const controller = new SessionController(new UserService())
+const controller = new SessionController(new UserService(), new TokenService())
 
 /**
  * @swagger
@@ -135,5 +136,32 @@ router.post('/singup', controller.singup.bind(controller))
  *
  */
 router.post('/signin', controller.signin.bind(controller))
+
+/**
+ * @swagger
+ * /session/logout:
+ *  post:
+ *    summary: Logout of the current session
+ *    tags: [Session]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/UserSignIn'
+ *    responses:
+ *      200:
+ *        description: the user was succesfully logged out
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UserSignIn'
+ *      400:
+ *        description: Invalid Credentials
+ *      500:
+ *        description: Server Error
+ *
+ */
+router.post('/logout', controller.logout.bind(controller))
 
 export default router
