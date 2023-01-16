@@ -3,7 +3,7 @@
 ## Steps to run this project:
 
 I recommend:
-=> CONNECTION_PORT: 4000
+=> CONNECTION_PORT: 3000
 => IMAGE_NAME: task-api
 
 1. Run `docker build -t [IMAGE_NAME] .` command
